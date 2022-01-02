@@ -1,19 +1,19 @@
 apiVersion : apps/v1
 kind: Deployment
 metadata:
-  name: yoletechdevopsdockercomposenodejsmysql 
+  name: waheedahmeddockercomposenodejsmysql 
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: yoletechdevopsdockercomposenodejsmysql
+      app: waheedahmeddockercomposenodejsmysql
   template:
     metadata:
       labels:
-        app: yoletechdevopsdockercomposenodejsmysql 
+        app: waheedahmeddockercomposenodejsmysql 
     spec:
       containers:
-        - name: yoletechdevopsdockercomposenodejsmysql 
-          image: yole0devops0c1.azurecr.io/yoletechdevopsdockercomposenodejsmysql
+        - name: waheedahmeddockercomposenodejsmysql 
+          image: myapp01acr.azurecr.io/waheedahmeddockercomposenodejsmysql
           ports:
           - containerPort: 8080
