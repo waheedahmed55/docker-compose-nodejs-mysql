@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: app1-dev 
-          image: myapp01acr.azurecr.io/waheedahmeddockercomposenodejsmysql
+          image: myapp02devacr.azurecr.io/waheedahmeddockercomposenodejsmysql
           ports:
           - containerPort: 8080

@@ -18,12 +18,12 @@ variables:
   # stage env file name
   envFileName: 'env.$(stage)'
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '9c38f579-92f3-4aa2-9fae-284cee04b1d2'
+  dockerRegistryServiceConnection: '3546b228-ed78-4f13-8ee2-49dc6455b1aa'
   imageRepository: 'waheedahmeddockercomposenodejsmysql'
-  containerRegistry: 'myapp01acr.azurecr.io'
+  containerRegistry: 'myapp02devacr.azurecr.io'
   dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
-  imagePullSecret: 'myapp01acr3373ed33-auth'
+  imagePullSecret: 'acr-secret-dev'
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
