@@ -1,15 +1,22 @@
-# Deploy to Azure Kubernetes Service
-# Build and push image to Azure Container Registry; Deploy to Azure Kubernetes Service
-# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
-
+# Disables CI builds entirely, then commits don't trigger a build
 trigger:
-- master
+- prod
+- uat
+- dev
 
 resources:
 - repo: self
 
+# Specific variables to use, in our case it is just one and at the pipeline level 
 variables:
-
+  ${{ if eq(variables['Build.SourceBranch'],'refs/heads/prod') }}:
+    stage: 'prod'
+  ${{ if eq(variables['Build.SourceBranch'],'refs/heads/uat') }}:
+    stage: 'uat'
+  ${{ if eq(variables['Build.SourceBranch'],'refs/heads/dev') }}:
+    stage: 'dev'
+  # stage env file name
+  envFileName: 'env.$(stage)'
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: '9c38f579-92f3-4aa2-9fae-284cee04b1d2'
   imageRepository: 'waheedahmeddockercomposenodejsmysql'
@@ -17,7 +24,6 @@ variables:
   dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
   imagePullSecret: 'myapp01acr3373ed33-auth'
-
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
@@ -35,15 +41,16 @@ stages:
       name: 'envFile'
       displayName: 'Download secure file'
       inputs:
-        secureFile: .env
+        secureFile: $(envFileName)
+    
     - bash: |
-        cp $(envFile.secureFilePath) .
-        cp $(envFile.secureFilePath) app/
+        cp $(envFile.secureFilePath) .env
+        cp $(envFile.secureFilePath) app/.env
         ls -alF
         ls -alF app/
         cat app/.env
-
       displayName: "Copy env File"
+    
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
@@ -53,6 +60,7 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+          $(stage)
 
     - upload: manifests
       artifact: manifests
@@ -83,8 +91,8 @@ stages:
             inputs:
               action: deploy
               manifests: |
-                $(Pipeline.Workspace)/manifests/deployment.yml
-                $(Pipeline.Workspace)/manifests/service.yml
+                $(Pipeline.Workspace)/manifests/$(stage)/deployment.yml
+                $(Pipeline.Workspace)/manifests/$(stage)/service.yml
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |

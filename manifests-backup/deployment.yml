@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: waheedahmeddockercomposenodejsmysql 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: waheedahmeddockercomposenodejsmysql
+  template:
+    metadata:
+      labels:
+        app: waheedahmeddockercomposenodejsmysql 
+    spec:
+      containers:
+        - name: waheedahmeddockercomposenodejsmysql 
+          image: myapp01acr.azurecr.io/waheedahmeddockercomposenodejsmysql
+          ports:
+          - containerPort: 8080
