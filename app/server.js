@@ -26,7 +26,7 @@ db.sequelize.sync();
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application Dev env changed db." });
+  res.json({ message: "Welcome to bezkoder application. dev testing namespace" });
 });
 
 require("./app/routes/turorial.routes")(app);
