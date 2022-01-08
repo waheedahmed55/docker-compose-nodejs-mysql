@@ -26,7 +26,7 @@ db.sequelize.sync();
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application. prod env test" });
+  res.json({ message: "Welcome to bezkoder application. prod env test 2" });
 });
 
 require("./app/routes/turorial.routes")(app);
